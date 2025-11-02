@@ -2,9 +2,11 @@
 
 A powerful async select component for Laravel Livewire with Alpine.js - a modern, lightweight alternative to Select2.
 
-[![Latest Version](https://img.shields.io/packagist/v/drpshtiwan/livewire-async-select.svg)](https://packagist.org/packages/drpshtiwan/livewire-async-select)
-[![Total Downloads](https://img.shields.io/packagist/dt/drpshtiwan/livewire-async-select.svg)](https://packagist.org/packages/drpshtiwan/livewire-async-select)
-[![License](https://img.shields.io/packagist/l/drpshtiwan/livewire-async-select.svg)](https://packagist.org/packages/drpshtiwan/livewire-async-select)
+[![Latest Version](https://img.shields.io/packagist/v/drpshtiwan/livewire-async-select.svg?style=flat-square)](https://packagist.org/packages/drpshtiwan/livewire-async-select)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/drpshtiwan/livewire-async-select/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/drpshtiwan/livewire-async-select/actions?query=workflow%3Atests+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/drpshtiwan/livewire-async-select.svg?style=flat-square)](https://packagist.org/packages/drpshtiwan/livewire-async-select)
+[![Code Style](https://img.shields.io/badge/code%20style-pint-orange?style=flat-square)](https://github.com/laravel/pint)
+[![License](https://img.shields.io/github/license/drpshtiwan/livewire-async-select?style=flat-square)](LICENSE)
 
 ## 🎥 Demo
 
