@@ -1,0 +1,33 @@
+{
+  "name": "livewire-async-select-docs",
+  "version": "1.0.0",
+  "description": "Documentation for Livewire Async Select",
+  "homepage": "https://livewire-select.thejano.com",
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "vite build",
+    "build:css": "tailwindcss -i ./resources/css/async-select.css -o ./dist/async-select.css --minify",
+    "watch:css": "tailwindcss -i ./resources/css/async-select.css -o ./dist/async-select.css --watch",
+    "docs:dev": "vuepress dev docs-src",
+    "docs:build": "vuepress build docs-src"
+  },
+  "devDependencies": {
+    "vuepress": "^2.0.0-rc.18",
+    "@vuepress/bundler-vite": "^2.0.0-rc.18",
+    "@vuepress/theme-default": "^2.0.0-rc.18",
+    "sass-embedded": "^1.83.0",
+    "tailwindcss": "^3.4.0",
+    "autoprefixer": "^10.4.16",
+    "vite": "^5.0.0",
+    "postcss": "^8.4.32"
+  },
+  "keywords": [
+    "livewire",
+    "laravel",
+    "select",
+    "async",
+    "alpine"
+  ],
+  "author": "Dr. Pshtiwan Mahmood",
+  "license": "MIT"
+}

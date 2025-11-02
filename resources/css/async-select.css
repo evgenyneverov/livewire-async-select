@@ -1,0 +1,392 @@
+/* Livewire Async Select - Tailwind CSS with las- prefix */
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Ensure dropdown is hidden before Alpine.js initializes */
+[x-cloak] {
+  display: none !important;
+}
+
+/* ============================================
+   RTL (Right-to-Left) Support
+   ============================================ */
+
+.las-rtl {
+  direction: rtl;
+}
+
+.las-ltr {
+  direction: ltr;
+}
+
+/* RTL Padding Adjustments */
+.las-rtl .las-pl-1 {
+  padding-left: 0 !important;
+  padding-right: 0.25rem !important;
+}
+
+.las-rtl .las-pl-2 {
+  padding-left: 0 !important;
+  padding-right: 0.5rem !important;
+}
+
+.las-rtl .las-pl-3 {
+  padding-left: 0 !important;
+  padding-right: 0.75rem !important;
+}
+
+.las-rtl .las-pl-4 {
+  padding-left: 0 !important;
+  padding-right: 1rem !important;
+}
+
+.las-rtl .las-pr-1 {
+  padding-right: 0 !important;
+  padding-left: 0.25rem !important;
+}
+
+.las-rtl .las-pr-2 {
+  padding-right: 0 !important;
+  padding-left: 0.5rem !important;
+}
+
+.las-rtl .las-pr-3 {
+  padding-right: 0 !important;
+  padding-left: 0.75rem !important;
+}
+
+.las-rtl .las-pr-4 {
+  padding-right: 0 !important;
+  padding-left: 1rem !important;
+}
+
+/* RTL Margin Adjustments */
+.las-rtl .las-ml-1 {
+  margin-left: 0 !important;
+  margin-right: 0.25rem !important;
+}
+
+.las-rtl .las-ml-2 {
+  margin-left: 0 !important;
+  margin-right: 0.5rem !important;
+}
+
+.las-rtl .las-ml-3 {
+  margin-left: 0 !important;
+  margin-right: 0.75rem !important;
+}
+
+.las-rtl .las-ml-4 {
+  margin-left: 0 !important;
+  margin-right: 1rem !important;
+}
+
+.las-rtl .las-mr-1 {
+  margin-right: 0 !important;
+  margin-left: 0.25rem !important;
+}
+
+.las-rtl .las-mr-2 {
+  margin-right: 0 !important;
+  margin-left: 0.5rem !important;
+}
+
+.las-rtl .las-mr-3 {
+  margin-right: 0 !important;
+  margin-left: 0.75rem !important;
+}
+
+.las-rtl .las-mr-4 {
+  margin-right: 0 !important;
+  margin-left: 1rem !important;
+}
+
+/* RTL Positioning */
+.las-rtl .las-left-0 {
+  left: auto !important;
+  right: 0 !important;
+}
+
+.las-rtl .las-right-0 {
+  right: auto !important;
+  left: 0 !important;
+}
+
+/* RTL Text Alignment */
+.las-rtl .las-text-left {
+  text-align: right !important;
+}
+
+.las-rtl .las-text-right {
+  text-align: left !important;
+}
+
+/* RTL Flexbox Adjustments */
+.las-rtl .las-flex {
+  flex-direction: row-reverse;
+}
+
+.las-rtl .las-flex.las-flex-col {
+  flex-direction: column;
+}
+
+.las-rtl .las-flex.las-flex-row {
+  flex-direction: row-reverse;
+}
+
+/* RTL Border Radius */
+.las-rtl .las-rounded-l-md {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-top-right-radius: 0.375rem !important;
+  border-bottom-right-radius: 0.375rem !important;
+}
+
+.las-rtl .las-rounded-r-md {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-top-left-radius: 0.375rem !important;
+  border-bottom-left-radius: 0.375rem !important;
+}
+
+/* RTL Badge/Chip Adjustments */
+.las-rtl .las-badge,
+.las-rtl [class*="las-badge"] {
+  direction: rtl;
+}
+
+/* RTL Gap Adjustments (for flexbox) */
+.las-rtl .las-gap-1 > * + *,
+.las-rtl .las-gap-2 > * + *,
+.las-rtl .las-gap-3 > * + *,
+.las-rtl .las-gap-4 > * + * {
+  margin-left: 0;
+}
+
+/* RTL Input and Placeholder */
+.las-rtl input[type="text"],
+.las-rtl input[type="search"] {
+  text-align: right;
+}
+
+.las-rtl input::placeholder {
+  text-align: right;
+}
+
+/* RTL Dropdown Positioning */
+.las-rtl .las-absolute.las-left-0 {
+  left: auto !important;
+  right: 0 !important;
+}
+
+.las-rtl .las-absolute.las-right-0 {
+  right: auto !important;
+  left: 0 !important;
+}
+
+/* RTL Transform (for arrows, icons) */
+.las-rtl .las-rotate-180 {
+  transform: rotate(0deg) !important;
+}
+
+.las-rtl svg[class*="las-rotate"] {
+  transform: scaleX(-1);
+}
+
+/* RTL Chip/Badge Remove Button */
+.las-rtl .las-badge button,
+.las-rtl [data-selected] button {
+  margin-left: 0;
+  margin-right: 0.25rem;
+}
+
+/* RTL Scrollbar */
+.las-rtl ::-webkit-scrollbar {
+  left: 0;
+  right: auto;
+}
+
+/* Prevent Bootstrap and Select2 style conflicts */
+.las-async-select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Override Bootstrap's .form-control and .form-select if applied */
+.las-async-select-wrapper .las-select-trigger,
+.las-async-select-wrapper input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: none !important;
+}
+
+/* Ensure Bootstrap modal z-index doesn't interfere */
+.las-async-select-wrapper .las-z-50 {
+  z-index: 1050 !important; /* Higher than Bootstrap modal backdrop */
+}
+
+/* Override Select2 classes if they exist */
+.select2-container,
+.select2-dropdown {
+  z-index: 1040 !important;
+}
+
+/* Custom component styles */
+@layer components {
+  /* Container */
+  .las-async-select {
+    @apply las-relative las-w-full;
+  }
+
+  /* Trigger Button */
+  .las-select-trigger {
+    @apply las-flex las-items-center las-justify-between las-w-full las-px-3 las-py-2;
+    @apply las-text-sm las-font-medium las-text-gray-700;
+    @apply las-bg-white las-border las-border-gray-300 las-rounded-md las-shadow-sm;
+    @apply hover:las-bg-gray-50 focus:las-outline-none focus:las-ring-2 focus:las-ring-primary-500 focus:las-border-primary-500;
+    @apply las-cursor-pointer las-transition-colors las-duration-150;
+  }
+
+  .las-select-trigger[aria-expanded="true"] {
+    @apply las-ring-2 las-ring-primary-500 las-border-primary-500;
+  }
+
+  .las-select-trigger:disabled {
+    @apply las-opacity-50 las-cursor-not-allowed hover:las-bg-white;
+  }
+
+  /* Dropdown */
+  .las-dropdown {
+    @apply las-absolute las-z-50 las-w-full las-mt-1;
+    @apply las-bg-white las-border las-border-gray-300 las-rounded-md las-shadow-lg;
+    @apply las-max-h-60 las-overflow-hidden;
+  }
+
+  /* Search Input */
+  .las-search-input {
+    @apply las-w-full las-px-3 las-py-2 las-text-sm;
+    @apply las-border-b las-border-gray-200;
+    @apply focus:las-outline-none focus:las-ring-0;
+  }
+
+  /* Options Container */
+  .las-options-container {
+    @apply las-max-h-48 las-overflow-y-auto;
+  }
+
+  /* Option */
+  .las-option {
+    @apply las-flex las-items-center las-px-3 las-py-2 las-text-sm;
+    @apply las-cursor-pointer las-transition-colors las-duration-100;
+    @apply hover:las-bg-gray-100;
+  }
+
+  .las-option[aria-selected="true"] {
+    @apply las-bg-primary-50 las-text-primary-900;
+  }
+
+  .las-option[aria-disabled="true"] {
+    @apply las-opacity-50 las-cursor-not-allowed hover:las-bg-white;
+  }
+
+  /* Chip/Tag (for multiple selection) */
+  .las-chip {
+    @apply las-inline-flex las-items-center las-gap-1 las-px-2 las-py-1;
+    @apply las-text-xs las-font-medium;
+    @apply las-bg-primary-100 las-text-primary-800 las-rounded;
+  }
+
+  .las-chip-remove {
+    @apply las-flex-shrink-0 las-cursor-pointer hover:las-text-primary-600;
+  }
+
+  /* Loading Spinner */
+  .las-spinner {
+    @apply las-animate-spin las-h-4 las-w-4 las-text-gray-400;
+  }
+
+  /* Chevron Icon */
+  .las-chevron {
+    @apply las-h-5 las-w-5 las-text-gray-400 las-transition-transform las-duration-200;
+  }
+
+  .las-chevron.las-rotate {
+    @apply las-rotate-180;
+  }
+
+  /* Empty State */
+  .las-empty-state {
+    @apply las-px-3 las-py-6 las-text-sm las-text-center las-text-gray-500;
+  }
+
+  /* Error State */
+  .las-error-state {
+    @apply las-px-3 las-py-2 las-text-sm las-text-red-600 las-bg-red-50;
+  }
+
+  /* Image in options */
+  .las-option-image {
+    @apply las-flex-shrink-0 las-rounded;
+  }
+
+  .las-option-image-sm {
+    @apply las-h-4 las-w-4;
+  }
+
+  .las-option-image-md {
+    @apply las-h-6 las-w-6;
+  }
+
+  .las-option-image-lg {
+    @apply las-h-8 las-w-8;
+  }
+
+  .las-option-image-xl {
+    @apply las-h-10 las-w-10;
+  }
+
+  /* Clearable button */
+  .las-clear-button {
+    @apply las-flex-shrink-0 las-cursor-pointer hover:las-text-gray-600 las-text-gray-400;
+  }
+}
+
+/* Scrollbar styling */
+.las-options-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.las-options-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.las-options-container::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.las-options-container::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+#las-ui-bootstrap{
+  .las-search-input {
+    font-size: 1.1rem;
+  }
+
+  .las-select-trigger {
+    font-size: 1.1rem;
+  }
+
+  .las-option {
+    font-size: 1rem;
+  }
+
+  .las-chip {
+    font-size: 0.875rem;
+  }
+}
