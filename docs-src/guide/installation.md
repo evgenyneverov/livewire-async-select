@@ -104,7 +104,7 @@ This command will:
 
 ::: warning Important: Middleware Required for Authentication
 **You MUST apply the `async-auth` middleware to your API routes if you want authentication to work.** Without the middleware, internal authentication tokens will not be verified and users will not be authenticated.
-
+:::
 The package automatically registers the `async-auth` middleware globally. You can use it instead of the regular `auth` middleware in your routes:
 
 ```php
@@ -165,7 +165,7 @@ ASYNC_SELECT_USE_INTERNAL_AUTH=true
 
 When enabled globally, **all** AsyncSelect components will automatically use internal authentication for internal endpoints.
 
-**That's it!** The `async-auth` middleware is automatically registered, so you can start using it immediately in your routes. No manual registration needed.
+**Usage:**
 
 ```html
 <!-- No need to pass use-internal-auth when enabled globally -->
@@ -175,6 +175,8 @@ When enabled globally, **all** AsyncSelect components will automatically use int
     placeholder="Search users..."
 />
 ```
+
+**That's it!** The `async-auth` middleware is automatically registered, so you can start using it immediately in your routes. No manual registration needed.
 
 [Learn more about internal authentication →](/guide/authentication.html#internal-authentication)
 
