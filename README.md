@@ -25,6 +25,8 @@ A powerful async select component for Laravel Livewire with Alpine.js - a modern
 - 📦 **Easy Integration** - Native Livewire component
 - 🔄 **Two-way Binding** - Full wire:model support
 - 🔒 **No Style Conflicts** - All classes prefixed with `las-`
+- 🔐 **Authentication Support** - Custom headers and internal authentication
+- 🛡️ **Secure Internal Auth** - Signed tokens with replay protection
 
 ## 📚 Documentation
 

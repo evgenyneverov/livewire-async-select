@@ -352,6 +352,27 @@
   .las-clear-button {
     @apply las-flex-shrink-0 las-cursor-pointer hover:las-text-gray-600 las-text-gray-400;
   }
+
+  /* Icon Button (overrides Bootstrap button styles) */
+  .las-icon-button {
+    @apply las-border-0 las-bg-transparent las-p-0;
+    box-shadow: none;
+  }
+
+  .las-icon-button:focus,
+  .las-icon-button:active {
+    box-shadow: none;
+  }
+
+  #las-ui-bootstrap .las-select-trigger,
+  #las-ui-bootstrap .las-suffix-button {
+    border: 1px solid #d1d5db !important;
+    box-shadow: none !important;
+  }
+
+  #las-ui-bootstrap .las-suffix-button {
+    background-color: #fff !important;
+  }
 }
 
 /* Scrollbar styling */

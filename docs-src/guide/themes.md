@@ -1,6 +1,56 @@
-# Styling & Customization
+# Themes & Styling
 
-Livewire Async Select uses Tailwind CSS with a custom `las-` prefix to avoid conflicts with your application's styles.
+Livewire Async Select supports multiple UI themes and uses Tailwind CSS with a custom `las-` prefix to avoid conflicts with your application's styles.
+
+## UI Themes
+
+The component supports two UI themes:
+- **Tailwind** (default) - Modern, clean design using Tailwind CSS
+- **Bootstrap** - Classic Bootstrap styling
+
+### Setting the Theme
+
+You can set the theme per-component:
+
+```html
+<!-- Tailwind (default) -->
+<livewire:async-select :options="$options" ui="tailwind" />
+
+<!-- Bootstrap -->
+<livewire:async-select :options="$options" ui="bootstrap" />
+```
+
+### Global Configuration
+
+Set the default theme globally in `config/async-select.php`:
+
+```php
+return [
+    'ui' => env('ASYNC_SELECT_UI', 'tailwind'),
+];
+```
+
+Or via environment variable:
+
+```bash
+ASYNC_SELECT_UI=tailwind
+```
+
+When configured globally, all components will use this theme by default. You can still override it per-component:
+
+```html
+<!-- Uses config default (e.g., 'tailwind') -->
+<livewire:async-select :options="$options" />
+
+<!-- Overrides config -->
+<livewire:async-select :options="$options" ui="bootstrap" />
+```
+
+**Benefits of global configuration:**
+- ✅ Consistent theme across all components
+- ✅ Easy to switch themes app-wide
+- ✅ Still allows per-component overrides
+- ✅ Environment-based configuration
 
 ## Pre-built Styles
 

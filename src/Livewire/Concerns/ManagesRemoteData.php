@@ -2,16 +2,13 @@
 
 namespace DrPshtiwan\LivewireAsyncSelect\Livewire\Concerns;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Request;
 use Throwable;
 
 trait ManagesRemoteData
 {
-    /**
-     * Normalized remote options keyed by their value.
-     *
-     * @var array<string, array{value: string, label: string, image?: string}>
-     */
     protected array $remoteOptionsMap = [];
 
     public function loadMore(): void
@@ -46,8 +43,9 @@ trait ManagesRemoteData
         try {
             $http = Http::acceptJson()->timeout(5);
             
-            if (property_exists($this, 'headers') && ! empty($this->headers)) {
-                $http = $http->withHeaders($this->headers);
+            $headers = $this->getHeadersWithInternalAuth($this->endpoint, 'GET');
+            if (! empty($headers)) {
+                $http = $http->withHeaders($headers);
             }
             
             $response = $http->get($this->endpoint, array_merge($this->extraParams, [
@@ -69,14 +67,11 @@ trait ManagesRemoteData
             $items = $this->extractOptionsFromPayload($payload);
             $normalized = $this->normalizeOptions($items);
 
-            // Check for pagination metadata
-            // Support both custom format and Laravel's standard pagination format
             if (isset($payload['has_more'])) {
                 $this->hasMore = $payload['has_more'];
             } elseif (isset($payload['hasMore'])) {
                 $this->hasMore = $payload['hasMore'];
             } elseif (isset($payload['current_page'], $payload['last_page'])) {
-                // Laravel's standard pagination format
                 $this->hasMore = $payload['current_page'] < $payload['last_page'];
             } elseif (isset($payload['meta']['total'])) {
                 $total = $payload['meta']['total'];
@@ -113,8 +108,9 @@ trait ManagesRemoteData
         try {
             $http = Http::acceptJson()->timeout(5);
             
-            if (property_exists($this, 'headers') && ! empty($this->headers)) {
-                $http = $http->withHeaders($this->headers);
+            $headers = $this->getHeadersWithInternalAuth($endpoint, 'GET');
+            if (! empty($headers)) {
+                $http = $http->withHeaders($headers);
             }
             
             $response = $http->get($endpoint, array_merge($this->extraParams, [
@@ -225,5 +221,102 @@ trait ManagesRemoteData
         }
 
         return $payload;
+    }
+
+    protected function isInternalEndpoint(?string $endpoint): bool
+    {
+        if ($endpoint === null || $endpoint === '') {
+            return false;
+        }
+
+        $parsed = parse_url($endpoint);
+        
+        if (! isset($parsed['host'])) {
+            return true;
+        }
+
+        $currentHost = Request::getHost();
+        $currentScheme = Request::getScheme();
+        
+        $endpointHost = strtolower($parsed['host'] ?? '');
+        $currentHostLower = strtolower($currentHost);
+        
+        if ($endpointHost !== $currentHostLower) {
+            return false;
+        }
+        
+        if (isset($parsed['scheme'])) {
+            $endpointScheme = strtolower($parsed['scheme']);
+            $currentSchemeLower = strtolower($currentScheme);
+            return $endpointScheme === $currentSchemeLower;
+        }
+        
+        return true;
+    }
+
+    protected function generateInternalAuthToken(string $endpoint, string $method = 'GET', ?string $body = null): ?string
+    {
+        if (! class_exists(\DrPshtiwan\LivewireAsyncSelect\Support\InternalAuthToken::class)) {
+            return null;
+        }
+
+        $secret = config('async-select.internal.secret');
+        if (empty($secret)) {
+            return null;
+        }
+
+        if (! Auth::check()) {
+            return null;
+        }
+
+        try {
+            $userId = Auth::id();
+            
+            $parsed = parse_url($endpoint);
+            $path = $parsed['path'] ?? '/';
+            
+            $host = isset($parsed['host']) ? ($parsed['scheme'] ?? 'http') . '://' . $parsed['host'] : null;
+            
+            $bodyHash = $body !== null ? hash('sha256', $body) : null;
+            
+            $token = \DrPshtiwan\LivewireAsyncSelect\Support\InternalAuthToken::issue($userId, [
+                'm' => $method,
+                'p' => $path,
+                'h' => $host,
+                'bh' => $bodyHash,
+            ]);
+            
+            return $token;
+        } catch (Throwable $e) {
+            report($e);
+            return null;
+        }
+    }
+
+    protected function getHeadersWithInternalAuth(string $endpoint, string $method = 'GET', ?string $body = null): array
+    {
+        $headers = [];
+        
+        if (property_exists($this, 'headers') && ! empty($this->headers)) {
+            $headers = array_merge($headers, $this->headers);
+        }
+        
+        if (property_exists($this, 'useInternalAuth') 
+            && $this->useInternalAuth 
+            && isset($headers['Authorization'])) {
+            unset($headers['Authorization']);
+        }
+        
+        if (! isset($headers['X-Internal-User']) 
+            && property_exists($this, 'useInternalAuth') 
+            && $this->useInternalAuth 
+            && $this->isInternalEndpoint($endpoint)) {
+            $token = $this->generateInternalAuthToken($endpoint, $method, $body);
+            if ($token !== null) {
+                $headers['X-Internal-User'] = $token;
+            }
+        }
+        
+        return $headers;
     }
 }

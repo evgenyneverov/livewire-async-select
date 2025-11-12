@@ -21,6 +21,12 @@ class AsyncSelectServiceProvider extends ServiceProvider
             Livewire::component('async-select', \DrPshtiwan\LivewireAsyncSelect\Livewire\AsyncSelect::class);
         }
 
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                \DrPshtiwan\LivewireAsyncSelect\Console\GenerateInternalSecretCommand::class,
+            ]);
+        }
+
         $this->publishes([
             __DIR__.'/../config/async-select.php' => config_path('async-select.php'),
         ], 'async-select-config');
@@ -45,5 +51,10 @@ class AsyncSelectServiceProvider extends ServiceProvider
         \Illuminate\Support\Facades\Blade::directive('asyncSelectStyles', function () {
             return "<?php echo '<link rel=\"stylesheet\" href=\"' . asset('vendor/async-select/async-select.css') . '\">'; ?>";
         });
+    }
+
+    public static function getInternalAuthMiddlewareClass(): string
+    {
+        return \DrPshtiwan\LivewireAsyncSelect\Http\Middleware\InternalAuthenticate::class;
     }
 }

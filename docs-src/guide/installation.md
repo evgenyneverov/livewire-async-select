@@ -71,6 +71,7 @@ This creates `config/async-select.php` where you can set defaults for:
 - Placeholder text
 - Minimum search length
 - Search delay
+- UI theme (tailwind or bootstrap)
 - Class prefix
 - And more...
 
@@ -83,6 +84,93 @@ php artisan vendor:publish --tag=async-select-views
 ```
 
 Views will be published to `resources/views/vendor/async-select/`.
+
+## Internal Authentication Setup (Optional)
+
+If you plan to use internal authentication for secure same-domain API requests:
+
+### Step 1: Generate Secret
+
+```bash
+php artisan async-select:generate-secret
+```
+
+This command will:
+- Generate a secure base64-encoded secret
+- Automatically add `ASYNC_SELECT_INTERNAL_SECRET` to your `.env` file
+- Overwrite existing secret if `--force` flag is used
+
+### Step 2: Enable Globally (Recommended)
+
+Enable internal authentication globally in `config/async-select.php`:
+
+```php
+return [
+    'use_internal_auth' => env('ASYNC_SELECT_USE_INTERNAL_AUTH', true),
+    // ... other config
+];
+```
+
+Or set in your `.env` file:
+
+```bash
+ASYNC_SELECT_USE_INTERNAL_AUTH=true
+```
+
+When enabled globally, **all** AsyncSelect components will automatically use internal authentication for internal endpoints.
+
+### Step 3: Register Middleware
+
+Register the internal authentication middleware in your `bootstrap/app.php` (Laravel 11+) or `App\Http\Kernel.php` (Laravel 10):
+
+**Laravel 11+ (`bootstrap/app.php`):**
+
+```php
+use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Configuration\Middleware;
+
+return Application::configure(basePath: dirname(__DIR__))
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->alias([
+            'async-select.internal' => \DrPshtiwan\LivewireAsyncSelect\Http\Middleware\InternalAuthenticate::class,
+        ]);
+    })
+    ->create();
+```
+
+**Laravel 10 (`App\Http\Kernel.php`):**
+
+```php
+protected $middlewareAliases = [
+    'async-select.internal' => \DrPshtiwan\LivewireAsyncSelect\Http\Middleware\InternalAuthenticate::class,
+];
+```
+
+### Step 4: Apply Middleware to Routes
+
+Apply the middleware to your API routes:
+
+```php
+Route::middleware(['async-select.internal'])->group(function () {
+    Route::get('/api/users/search', [UserController::class, 'search']);
+    Route::get('/api/users/selected', [UserController::class, 'selected']);
+});
+```
+
+### Usage
+
+Once configured, all AsyncSelect components will automatically use internal authentication:
+
+```html
+<!-- No need to pass use-internal-auth when enabled globally -->
+<livewire:async-select
+    endpoint="/api/users/search"
+    wire:model="userId"
+    placeholder="Search users..."
+/>
+```
+
+[Learn more about internal authentication →](/guide/authentication.html#internal-authentication)
 
 ## Verify Installation
 

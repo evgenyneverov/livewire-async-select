@@ -56,6 +56,8 @@ class AsyncSelect extends Component
 
     public array $headers = [];
 
+    public bool $useInternalAuth = false;
+
     public ?string $valueField = null;
 
     public ?string $labelField = null;
@@ -117,8 +119,9 @@ class AsyncSelect extends Component
         bool $autoload = false,
         array $extraParams = [],
         array $headers = [],
+        ?bool $useInternalAuth = null,
         ?string $selectedEndpoint = null,
-        string $ui = 'tailwind',
+        ?string $ui = null,
         ?string $locale = null,
         ?string $error = null,
         bool $suffixButton = false,
@@ -143,8 +146,9 @@ class AsyncSelect extends Component
         $this->autoload = $autoload;
         $this->extraParams = $extraParams;
         $this->headers = $headers;
+        $this->useInternalAuth = $useInternalAuth ?? config('async-select.use_internal_auth', false);
         $this->selectedEndpoint = $selectedEndpoint;
-        $this->ui = strtolower($ui);
+        $this->ui = strtolower($ui ?: config('async-select.ui', 'tailwind'));
         $this->error = $error;
         $this->suffixButton = $suffixButton;
         $this->suffixButtonIcon = $suffixButtonIcon;

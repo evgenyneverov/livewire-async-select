@@ -345,7 +345,7 @@
                 @if ($this->hasSelection && $this->clearable)
                     <button
                         type="button"
-                        class="las-flex las-h-5 las-w-5 las-shrink-0 las-items-center las-justify-center las-rounded-sm las-text-gray-400 hover:las-text-gray-900 focus:las-outline-none"
+                        class="las-icon-button las-flex las-h-5 las-w-5 las-shrink-0 las-items-center las-justify-center las-rounded-sm las-text-gray-400 hover:las-text-gray-900 focus:las-outline-none"
                         wire:click="clearSelection()"
                         x-on:click.stop
                         title="{{ __('async-select::async-select.clear') }}"
@@ -358,7 +358,7 @@
 
                 <button
                     type="button"
-                    class="las-flex las-h-5 las-w-5 las-shrink-0 las-items-center las-justify-center las-text-gray-400"
+                    class="las-icon-button las-flex las-h-5 las-w-5 las-shrink-0 las-items-center las-justify-center las-text-gray-400"
                     x-on:click.stop="toggle()"
                 >
                     <svg

@@ -288,6 +288,39 @@ Your endpoint receives:
 /api/cities/search?search=london&country_id=1&active=1
 ```
 
+## Custom Headers
+
+Pass custom headers (e.g., for authentication) with HTTP requests:
+
+```html
+<livewire:async-select
+    endpoint="/api/users/search"
+    wire:model="userId"
+    :headers="[
+        'Authorization' => 'Bearer ' . $token,
+        'X-Custom-Header' => 'custom-value'
+    ]"
+/>
+```
+
+[Learn more about headers and authentication →](/guide/authentication.html#custom-headers)
+
+## Internal Authentication
+
+For secure internal API requests, use internal authentication:
+
+```html
+<livewire:async-select
+    endpoint="/api/users/search"
+    wire:model="userId"
+    :use-internal-auth="true"
+/>
+```
+
+This automatically generates signed tokens for authenticated users when making requests to endpoints on the same domain.
+
+[Learn more about internal authentication →](/guide/authentication.html#internal-authentication)
+
 ### Dynamic Parameters
 
 Use Livewire properties for dynamic values:

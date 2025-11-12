@@ -1,6 +1,7 @@
 import { defaultTheme } from '@vuepress/theme-default'
 import { defineUserConfig } from 'vuepress/cli'
 import { viteBundler } from '@vuepress/bundler-vite'
+import { searchPlugin } from '@vuepress/plugin-search'
 
 export default defineUserConfig({
   title: 'Livewire Async Select',
@@ -21,6 +22,18 @@ export default defineUserConfig({
   ],
 
   bundler: viteBundler(),
+
+  plugins: [
+    searchPlugin({
+      locales: {
+        '/': {
+          placeholder: 'Search',
+        },
+      },
+      maxSuggestions: 10,
+      hotKeys: ['s', '/'],
+    }),
+  ],
 
   theme: defaultTheme({
     repo: 'drpshtiwan/livewire-async-select',
@@ -54,7 +67,8 @@ export default defineUserConfig({
             '/guide/async-loading',
             '/guide/multiple-selection',
             '/guide/custom-slots',
-            '/guide/themes'
+            '/guide/themes',
+            '/guide/authentication'
           ]
         },
         {

@@ -12,7 +12,7 @@ Complete reference for all component properties and methods.
 | `wire:model` | string | required | Livewire model binding |
 | `value` | string\|int\|array | null | Default/pre-selected value(s). When using `wire:model`, this is optional as the component automatically uses the property value from `wire:model` (v1.1.0) |
 | `placeholder` | string | 'Select an option' | Placeholder text |
-| `theme` | string | 'tailwind' | UI theme: 'tailwind' or 'bootstrap' |
+| `ui` | string | config('async-select.ui', 'tailwind') | UI theme: 'tailwind' or 'bootstrap'. Uses config value if not provided |
 | `error` | string | null | Validation error message to display |
 
 ### Data Source
@@ -47,6 +47,8 @@ Complete reference for all component properties and methods.
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | `extra-params` | array | [] | Additional query parameters |
+| `headers` | array | [] | Custom HTTP headers to send with requests (e.g., for authentication) |
+| `use-internal-auth` | boolean | config('async-select.use_internal_auth', false) | Enable internal authentication for same-domain endpoints. Uses config value if not provided |
 | `max-selections` | integer | null | Maximum selections (multiple mode) |
 | `value-field` | string | null | Custom value field name |
 | `label-field` | string | null | Custom label field name |
@@ -197,9 +199,52 @@ return [
     'selected_param' => 'selected',
     'autoload' => false,
     'multiple' => false,
-    'theme' => 'tailwind',
+    'ui' => 'tailwind',
+    'use_internal_auth' => env('ASYNC_SELECT_USE_INTERNAL_AUTH', false),
 ];
 ```
+
+### UI Theme Configuration
+
+The default UI theme can be configured globally:
+
+```php
+'ui' => env('ASYNC_SELECT_UI', 'tailwind'),
+```
+
+This sets the default theme for all components. You can still override it per-component:
+
+```html
+<!-- Uses config default -->
+<livewire:async-select :options="$options" />
+
+<!-- Overrides config -->
+<livewire:async-select :options="$options" ui="bootstrap" />
+```
+
+### Internal Authentication Configuration
+
+Internal authentication can be enabled globally:
+
+```php
+'use_internal_auth' => env('ASYNC_SELECT_USE_INTERNAL_AUTH', false),
+```
+
+When enabled globally, all AsyncSelect components will automatically use internal authentication for internal endpoints:
+
+```html
+<!-- Uses config (internal auth enabled globally) -->
+<livewire:async-select endpoint="/api/users" wire:model="userId" />
+
+<!-- Overrides config (disables for this component) -->
+<livewire:async-select 
+    endpoint="/api/users" 
+    wire:model="userId"
+    :use-internal-auth="false"
+/>
+```
+
+[Learn more about internal authentication →](/guide/authentication.html#internal-authentication)
 
 ## Environment Variables
 
@@ -211,6 +256,32 @@ ASYNC_SELECT_SEARCH_PARAM=search
 ASYNC_SELECT_SELECTED_PARAM=selected
 ASYNC_SELECT_AUTOLOAD=false
 ASYNC_SELECT_MULTIPLE=false
-ASYNC_SELECT_THEME=tailwind
+ASYNC_SELECT_UI=tailwind
+
+# Internal Authentication (Optional)
+ASYNC_SELECT_USE_INTERNAL_AUTH=false
+ASYNC_SELECT_INTERNAL_SECRET=your-base64-encoded-secret
+ASYNC_SELECT_INTERNAL_PREVIOUS_SECRET=old-secret-for-key-rotation
+ASYNC_SELECT_INTERNAL_NONCE_TTL=120
+ASYNC_SELECT_INTERNAL_SKEW=60
 ```
+
+### Generating Internal Auth Secret
+
+Use the artisan command to generate a secure secret:
+
+```bash
+php artisan async-select:generate-secret
+```
+
+This automatically adds `ASYNC_SELECT_INTERNAL_SECRET` to your `.env` file.
+
+## Authentication
+
+The component supports custom headers and internal authentication:
+
+- **Custom Headers**: Pass authentication tokens or custom headers with requests
+- **Internal Auth**: Automatically authenticate requests to same-domain endpoints
+
+[Learn more →](/guide/authentication.html)
 

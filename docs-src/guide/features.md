@@ -105,11 +105,20 @@ Fully customize how options and selected items appear.
 Built-in support for Tailwind CSS and Bootstrap.
 
 ```html
-<!-- Tailwind (default) -->
-<livewire:async-select theme="tailwind" />
+<!-- Tailwind (default, or uses config) -->
+<livewire:async-select ui="tailwind" />
 
 <!-- Bootstrap -->
-<livewire:async-select theme="bootstrap" />
+<livewire:async-select ui="bootstrap" />
+
+<!-- Uses config default -->
+<livewire:async-select :options="$options" />
+```
+
+You can configure the default theme globally in `config/async-select.php`:
+
+```php
+'ui' => env('ASYNC_SELECT_UI', 'tailwind'),
 ```
 
 [Learn more →](/guide/themes.html)
@@ -317,6 +326,44 @@ Pass additional parameters to API endpoints:
     :extra-params="['country_id' => $countryId, 'active' => true]"
 />
 ```
+
+## 🔐 Authentication
+
+### Custom Headers
+
+Pass custom headers (e.g., for authentication) with HTTP requests:
+
+```html
+<livewire:async-select
+    endpoint="/api/users/search"
+    wire:model="userId"
+    :headers="[
+        'Authorization' => 'Bearer ' . $token,
+        'X-Custom-Header' => 'custom-value'
+    ]"
+/>
+```
+
+### Internal Authentication
+
+Automatically authenticate requests to same-domain endpoints:
+
+```html
+<livewire:async-select
+    endpoint="/api/users/search"
+    wire:model="userId"
+    :use-internal-auth="true"
+/>
+```
+
+**Features:**
+- Automatic token generation for authenticated users
+- Signed tokens with request binding
+- Replay attack protection
+- Key rotation support
+- Works seamlessly with Laravel middleware
+
+[Learn more →](/guide/authentication.html)
 
 ## 📱 Responsive
 
