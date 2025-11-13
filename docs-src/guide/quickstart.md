@@ -146,7 +146,6 @@ Load options from an API endpoint:
 
 Create the endpoint in your routes:
 
-::: warning Important: Middleware Required for Authentication
 **If your endpoint requires authentication, you MUST apply the `async-auth` middleware.** Without it, internal authentication tokens will not be verified and users will not be authenticated.
 
 ```php
@@ -181,7 +180,6 @@ Route::get('/api/users/search', function (Request $request) {
     // auth()->user() will be null even if X-Internal-User header is present
 });
 ```
-:::
 
 ## Common Patterns
 

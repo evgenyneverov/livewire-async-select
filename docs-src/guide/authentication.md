@@ -35,7 +35,7 @@ ASYNC_SELECT_USE_INTERNAL_AUTH=true
 
 ::: warning Important: Middleware Required for Authentication
 **You MUST apply the `async-auth` middleware to your API routes if you want authentication to work.** Without the middleware, internal authentication tokens will not be verified and users will not be authenticated.
-
+:::
 The package automatically registers the `async-auth` middleware globally. You can use it instead of the regular `auth` middleware:
 
 ```php
@@ -58,7 +58,7 @@ The `async-auth` middleware:
 - Automatically handles internal authentication when `X-Internal-User` header is present
 - Supports all guard specifications: `async-auth:web`, `async-auth:sanctum`, etc.
 - Supports additional flags: `async-auth:web,persist` for session persistence
-:::
+
 
 ### Step 5: Use Component
 
@@ -242,7 +242,7 @@ The package automatically registers the `async-auth` middleware. **No manual reg
 
 ::: warning Required for Authentication
 **You MUST apply the `async-auth` middleware to your routes for authentication to work.** The middleware verifies internal authentication tokens and authenticates users.
-
+:::
 The `async-auth` middleware is registered globally and can be used exactly like the `auth` middleware:
 
 ```php
@@ -270,13 +270,13 @@ Route::get('/api/users/search', function () {
     // auth()->user() will be null even if X-Internal-User header is present
 });
 ```
-:::
+
 
 ### Applying Middleware to Routes
 
 ::: warning Important
 **Always apply the `async-auth` middleware to routes that require authentication.** Without it, the internal authentication token will not be verified and users will not be authenticated.
-
+:::
 #### Single Route
 
 ```php
@@ -349,7 +349,7 @@ Route::middleware(['web', 'async-auth:web,persist'])->group(function () {
     Route::get('/api/users/search', [UserController::class, 'search']);
 });
 ```
-
+::: tip 
 **Note:** The `persist` flag only works with session-based guards (like `web`). It stores the authentication in the session for subsequent requests.
 :::
 
