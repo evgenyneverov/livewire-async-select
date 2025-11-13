@@ -46,6 +46,9 @@ test('sends headers with API request', function () {
         'autoload' => true,
     ]);
 
+    // Ensure the component has finished processing the autoload request
+    expect($component->get('isLoading'))->toBeFalse();
+
     // Check that headers are set
     expect($component->get('headers'))->toBe([
         'Authorization' => 'Bearer token123',

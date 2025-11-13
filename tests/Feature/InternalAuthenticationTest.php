@@ -24,6 +24,9 @@ test('AsyncSelect adds internal auth header when useInternalAuth is enabled', fu
         'autoload' => true,
     ]);
 
+    // Ensure the component has finished processing the autoload request
+    expect($component->get('isLoading'))->toBeFalse();
+
     $recorded = Http::recorded();
     expect($recorded)->not()->toBeEmpty();
 
@@ -45,6 +48,9 @@ test('AsyncSelect uses global config for useInternalAuth when not provided', fun
         'autoload' => true,
     ]);
 
+    // Ensure the component has finished processing the autoload request
+    expect($component->get('isLoading'))->toBeFalse();
+
     $recorded = Http::recorded();
     expect($recorded)->not()->toBeEmpty();
 
@@ -65,6 +71,9 @@ test('AsyncSelect does not add internal auth header for external endpoints', fun
         'autoload' => true,
     ]);
 
+    // Ensure the component has finished processing the autoload request
+    expect($component->get('isLoading'))->toBeFalse();
+
     $recorded = Http::recorded();
     expect($recorded)->not()->toBeEmpty();
 
@@ -84,6 +93,9 @@ test('AsyncSelect does not add internal auth header when useInternalAuth is fals
         'autoload' => true,
     ]);
 
+    // Ensure the component has finished processing the autoload request
+    expect($component->get('isLoading'))->toBeFalse();
+
     $recorded = Http::recorded();
     expect($recorded)->not()->toBeEmpty();
 
@@ -101,6 +113,9 @@ test('AsyncSelect does not add internal auth header when user is not authenticat
         'useInternalAuth' => true,
         'autoload' => true,
     ]);
+
+    // Ensure the component has finished processing the autoload request
+    expect($component->get('isLoading'))->toBeFalse();
 
     $recorded = Http::recorded();
     expect($recorded)->not()->toBeEmpty();
@@ -122,6 +137,9 @@ test('AsyncSelect does not add internal auth header when secret is not configure
         'useInternalAuth' => true,
         'autoload' => true,
     ]);
+
+    // Ensure the component has finished processing the autoload request
+    expect($component->get('isLoading'))->toBeFalse();
 
     $recorded = Http::recorded();
     expect($recorded)->not()->toBeEmpty();
@@ -146,6 +164,9 @@ test('AsyncSelect preserves custom headers when adding internal auth', function 
         'autoload' => true,
     ]);
 
+    // Ensure the component has finished processing the autoload request
+    expect($component->get('isLoading'))->toBeFalse();
+
     $recorded = Http::recorded();
     expect($recorded)->not()->toBeEmpty();
 
@@ -169,6 +190,9 @@ test('AsyncSelect removes Authorization header when useInternalAuth is enabled',
         ],
         'autoload' => true,
     ]);
+
+    // Ensure the component has finished processing the autoload request
+    expect($component->get('isLoading'))->toBeFalse();
 
     $recorded = Http::recorded();
     expect($recorded)->not()->toBeEmpty();
@@ -392,6 +416,9 @@ test('middleware works with AsyncSelect making requests to protected routes', fu
         'labelField' => 'name',
         'autoload' => true,
     ]);
+
+    // Ensure the component has finished processing the autoload request
+    expect($component->get('isLoading'))->toBeFalse();
 
     $recorded = Http::recorded();
     expect($recorded)->not()->toBeEmpty();
